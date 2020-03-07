@@ -7,7 +7,7 @@ import CourseForm from "./CourseForm"
 import {newCourse} from '../../../tools/mockData'
 import {toast} from 'react-toastify'
 
-function ManageCoursePage({courses, authors, loadAuthors, loadCourses, saveCourse, history, ...props}) {
+export function ManageCoursePage({courses, authors, loadAuthors, loadCourses, saveCourse, history, ...props}) {
     const [course, setCourse ] = useState({...props.course});
     const [errors, setErrors ] = useState({})
     const [saving, setSaving] = useState(false);

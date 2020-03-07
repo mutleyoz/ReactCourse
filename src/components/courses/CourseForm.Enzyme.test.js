@@ -32,3 +32,4 @@ it('labels save buttons as "Saving" when saving', () => {
     const wrapper = renderCourseForm({saving: true});
     expect(wrapper.find("button").text()).toBe("Saving...");
 });
+
