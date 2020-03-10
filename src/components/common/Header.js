@@ -8,6 +8,7 @@ const Header = () => {
         <nav>
             <NavLink to="/" activeStyle={activeStyles} exact>Home</NavLink>{" | "}
             <NavLink to="/courses" activeStyle={activeStyles}>Courses</NavLink>{" | "}
+            <NavLink to="/authors" activeStyle={activeStyles}>Authors</NavLink>{" | "}
             <NavLink to="/about" activeStyle={activeStyles}>About</NavLink>
         </nav>
     )

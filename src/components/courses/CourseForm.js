@@ -45,7 +45,7 @@ const CourseForm = ({
         label="Category"
         value={course.category}
         onChange={onChange}
-        error={errors.category}
+        error={errors.category}u
       />
 
       <button type="submit" disabled={saving} className="btn btn-primary">
