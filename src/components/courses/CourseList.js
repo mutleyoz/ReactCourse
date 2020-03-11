@@ -25,7 +25,7 @@ const CourseList = ({courses, onDeleteClick}) => (
                         </td>
                         <td>{course.authorName}</td>
                         <td>{course.category}</td>
-                        <td><button className="btn btn-outline-danger" onClick={() => onDeleteClick(course)}>Delete</button></td>
+                        <td><button className="btn btn-outline-danger" disabled={course.coursecount === '0'} onClick={() => onDeleteClick(course)}>Delete</button></td>
                     </tr>
                 );
             })}

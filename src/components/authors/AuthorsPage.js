@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
 import * as courseActions from '../../redux/actions/courseActions'
 import * as authorActions from '../../redux/actions/authorActions'
@@ -6,48 +6,45 @@ import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import AuthorList from './AuthorList'
 
-class AuthorsPage extends React.Component {
-    
-    componentDidMount() {
-        const {courses, authors, actions } = this.props;
-
+export function AuthorsPage({courses, authors, actions}) {
+    useEffect(() => {
         if(authors.length === 0) {
             actions.loadAuthors().catch(error => {
                 alert("Loading authors failed " + error);
             });
         }
-
         if(courses.length === 0) {
             actions.loadCourses().catch(error => {
                 alert("Loading courses failed " + error);
             });
         }
-    }
+    });
 
-    handleDeleteAuthor = async author => {
-        debugger;
+    const handleDeleteAuthor = async author => {
         alert(author.name);
     }
 
-    render() {
-        return (
+    return (
         <>
             <h2>Authors</h2>
-            <AuthorList authors={this.props.authors} courses={this.props.courses} onDeleteClick={this.handleDeleteAuthor} />
+            <AuthorList authors={authors} onDeleteClick={handleDeleteAuthor} />
         </>
-        );
-    }
+    );
 }
 
 AuthorsPage.propTypes = {
-    courses: PropTypes.array.isRequired,
     authors: PropTypes.array.isRequired,
+    courses: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
     return {
-        authors: state.authors,
+        authors: state.courses.length === 0 
+            ? [] 
+            : state.authors.map( author => {
+                return {...author, coursecount: state.courses.filter(course => course.authorId === author.id).length }
+        }),
         courses: state.courses
     }
 }

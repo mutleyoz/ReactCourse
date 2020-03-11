@@ -16,8 +16,8 @@ const AuthorList = ({authors, onDeleteClick}) => {
                     return(
                         <tr key={author.id}>
                             <td>{author.name}</td>
-                            <td>1</td>
-                            <td><button className="btn btn-danger" onClick={ () => onDeleteClick(author)}>Delete</button></td>
+                            <td>{author.coursecount}</td>
+                            <td><button className="btn btn-outline-danger" onClick={ () => onDeleteClick(author)}>Delete</button></td>
                         </tr>
                     );
                 })}
