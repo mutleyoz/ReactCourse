@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
 
-const AuthorList = ({authors, courses, onDeleteClick}) => {
+const AuthorList = ({authors, onDeleteClick}) => {
     return(
         <table className="table">
             <thead>
-                <th>Name</th>
-                <th>Courses</th>
-                <th/>
+                <tr>
+                    <th>Name</th>
+                    <th>Courses</th>
+                    <th/>
+                </tr>
             </thead>
             <tbody>
                 {authors.map(author => {
@@ -16,7 +17,7 @@ const AuthorList = ({authors, courses, onDeleteClick}) => {
                         <tr key={author.id}>
                             <td>{author.name}</td>
                             <td>1</td>
-                            <td><button className="btn btn-danger" onClick={onDeleteClick}>Delete</button></td>
+                            <td><button className="btn btn-danger" onClick={ () => onDeleteClick(author)}>Delete</button></td>
                         </tr>
                     );
                 })}

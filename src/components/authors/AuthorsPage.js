@@ -1,36 +1,48 @@
-import React, {useEffect} from 'react'
-import PropTypes from 'prop-types'
-import AuthorList from './AuthorList'
+import React from 'react'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import * as courseActions from '../../redux/actions/courseActions'
 import * as authorActions from '../../redux/actions/authorActions'
+import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import AuthorList from './AuthorList'
 
-const AuthorsPage = () => {
-    const {courses, authors, actions } = this.props;
-    useEffect(() => {
-        if(authors.length==0) {
+class AuthorsPage extends React.Component {
+    
+    componentDidMount() {
+        const {courses, authors, actions } = this.props;
+
+        if(authors.length === 0) {
             actions.loadAuthors().catch(error => {
                 alert("Loading authors failed " + error);
-            })
+            });
         }
-    });
 
-    const onDeleteClick = (event) => {
-        alert(event);
+        if(courses.length === 0) {
+            actions.loadCourses().catch(error => {
+                alert("Loading courses failed " + error);
+            });
+        }
     }
 
-    return(
+    handleDeleteAuthor = async author => {
+        debugger;
+        alert(author.name);
+    }
+
+    render() {
+        return (
         <>
-        <h2>Authors</h2>
-        <AuthorList authors={authors} courses={courses} onDeleteClick={onDeleteClick} />
+            <h2>Authors</h2>
+            <AuthorList authors={this.props.authors} courses={this.props.courses} onDeleteClick={this.handleDeleteAuthor} />
         </>
-    );
+        );
+    }
 }
 
-AuthorsPage.prototype = {
+AuthorsPage.propTypes = {
     courses: PropTypes.array.isRequired,
-    authors: PropTypes.array.isRequired
+    authors: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
