@@ -1,27 +1,32 @@
 import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
-import * as courseActions from '../../redux/actions/courseActions'
-import * as authorActions from '../../redux/actions/authorActions'
+import {loadCourses} from '../../redux/actions/courseActions'
+import {loadAuthors, deleteAuthor} from '../../redux/actions/authorActions'
 import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
 import AuthorList from './AuthorList'
+import { toast } from 'react-toastify'
 
-export function AuthorsPage({courses, authors, actions}) {
+export function AuthorsPage({courses, authors, loadAuthors, loadCourses, deleteAuthor}) {
     useEffect(() => {
         if(authors.length === 0) {
-            actions.loadAuthors().catch(error => {
+            loadAuthors().catch(error => {
                 alert("Loading authors failed " + error);
             });
         }
         if(courses.length === 0) {
-            actions.loadCourses().catch(error => {
+            loadCourses().catch(error => {
                 alert("Loading courses failed " + error);
             });
         }
-    });
+    }, []);
 
     const handleDeleteAuthor = async author => {
-        alert(author.name);
+        toast.success("Author deleted");
+        try {
+            await deleteAuthor(author);
+        } catch(error) {
+            toast.error("Delete failed. " + error.message, {autoClose: false})
+        }
     }
 
     return (
@@ -35,7 +40,9 @@ export function AuthorsPage({courses, authors, actions}) {
 AuthorsPage.propTypes = {
     authors: PropTypes.array.isRequired,
     courses: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    loadCourses: PropTypes.func.isRequired,
+    loadAuthors: PropTypes.func.isRequired,
+    deleteAuthor: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -49,13 +56,10 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            loadCourses : bindActionCreators(courseActions.loadCourses, dispatch),
-            loadAuthors:  bindActionCreators(authorActions.loadAuthors, dispatch),
-        }
-    }
-}
+const mapDispatchToProps = {
+    loadCourses : loadCourses,
+    loadAuthors: loadAuthors,
+    deleteAuthor : deleteAuthor
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorsPage)
