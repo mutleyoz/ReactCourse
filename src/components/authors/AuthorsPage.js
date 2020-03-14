@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux'
 import {loadCourses} from '../../redux/actions/courseActions'
 import {loadAuthors, deleteAuthor} from '../../redux/actions/authorActions'
@@ -7,6 +8,8 @@ import AuthorList from './AuthorList'
 import { toast } from 'react-toastify'
 
 export function AuthorsPage({courses, authors, loadAuthors, loadCourses, deleteAuthor}) {
+
+    const [redirectToAddAuthorPage, setRedirectToAddAuthorPage] = useState(false);
     useEffect(() => {
         if(authors.length === 0) {
             loadAuthors().catch(error => {
@@ -31,7 +34,9 @@ export function AuthorsPage({courses, authors, loadAuthors, loadCourses, deleteA
 
     return (
         <>
+            {redirectToAddAuthorPage && <Redirect to="/author" />}
             <h2>Authors</h2>
+            <button style={{marginBottom: 20}} className="btn btn-primary add-author" onClick={() => setRedirectToAddAuthorPage(true)}>Add Author</button>
             <AuthorList authors={authors} onDeleteClick={handleDeleteAuthor} />
         </>
     );

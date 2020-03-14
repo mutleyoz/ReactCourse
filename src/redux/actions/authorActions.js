@@ -7,7 +7,15 @@ function loadAuthorsSuccess(authors) {
 }
 
 function deleteAuthorOptimistic(author) {
-    return {type: actionTypes.DELETE_AUTHOR_OPTIMISTIC, author}
+    return {type: actionTypes.DELETE_AUTHOR_OPTIMISTIC, author};
+}
+
+function createAuthorSuccess(author) {
+    return {type: actionTypes.CREATE_AUTHOR_SUCCESS, author};
+}
+
+function updateAuthorSuccess(author) {
+    return {type: actionTypes.UPDATE_AUTHOR_SUCCESS, author};
 }
 
 export function loadAuthors() {
@@ -27,5 +35,17 @@ export function deleteAuthor(author) {
         dispatch(deleteAuthorOptimistic(author.id));
         authorApi.deleteAuthor(author.id);
     }
+}
+
+export function saveAuthor(author) {
+    return function(dispatch) {
+        dispatch(beginApiCall());
+        return authorApi.saveAuthor(author)
+            .then(savedAuthor => {
+                savedAuthor.id 
+                    ? dispatch(updateAuthorSuccess(author))
+                    : dispatch(createAuthorSuccess(author))
+                })
+            }
 }
 
