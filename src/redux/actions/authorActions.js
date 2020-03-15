@@ -32,7 +32,7 @@ export function loadAuthors() {
 
 export function deleteAuthor(author) {
     return function(dispatch) {
-        dispatch(deleteAuthorOptimistic(author.id));
+        dispatch(deleteAuthorOptimistic(author));
         authorApi.deleteAuthor(author.id);
     }
 }

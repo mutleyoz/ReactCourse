@@ -14,7 +14,6 @@ export function deleteAuthor(authorId) {
 }
 
 export function saveAuthor(author) {
-  debugger;
   return fetch(baseUrl + (author.id || ""), {
     method: author.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
     headers: { "content-type": "application/json" },

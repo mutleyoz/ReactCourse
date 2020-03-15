@@ -6,7 +6,7 @@ import AuthorForm from './AuthorForm';
 import {newAuthor} from '../../../tools/mockData'
 import { toast } from 'react-toastify';
 
-export function ManageAuthorPage({authors, loadAuthors, saveAuthor, ...props}) {
+export function ManageAuthorPage({authors, loadAuthors, saveAuthor, history, ...props}) {
     const [author, setAuthor] = useState({...props.author});
     const [errors, setErrors ] = useState({});
     const [saving, setSaving] = useState(false);
@@ -38,7 +38,7 @@ export function ManageAuthorPage({authors, loadAuthors, saveAuthor, ...props}) {
         setSaving(true);
         saveAuthor(author).then(() => {
             toast.success("Author saved");
-            history.push("/authors");
+            history.push('/authors');
         }).catch(error => {
             setSaving(false);
             setErrors({ onSave: error.message });
@@ -49,7 +49,7 @@ export function ManageAuthorPage({authors, loadAuthors, saveAuthor, ...props}) {
         const {name, value} = event.target;
         setAuthor(prevAuthor => ({
             ...prevAuthor,
-            [name]: name === "authorId" ? parseInt(value, 10) : value
+            [name]: name === "id" ? parseInt(value, 10) : value
         }));
     }
 
@@ -62,13 +62,13 @@ ManageAuthorPage.propTypes = {
     author: PropTypes.object.isRequired,
     authors: PropTypes.array.isRequired,
     loadAuthors:  PropTypes.func.isRequired,
-    saveAuthor:  PropTypes.func.isRequired    
+    saveAuthor:  PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired    
 }
 
 function getAuthorBySlug(authors, slug) {
     return authors.find(author => author.id === slug) || null
 }
-
 
 function mapStateToProps(state, ownProps)  {
     const slug = ownProps.match.params.slug;

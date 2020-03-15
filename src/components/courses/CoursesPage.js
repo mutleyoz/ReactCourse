@@ -68,10 +68,10 @@ function mapStateToProps(state){
             state.authors.length === 0 
                 ? [] 
                 : state.courses.map(course => {
-             return {
-             ...course, authorName: state.authors.find(a => a.id === course.authorId).name
-             };
-         }),
+                    return {
+                        ...course, authorName: state.authors.find(a => a.id === course.authorId).name
+                    };
+        }),
          authors: state.authors,
          loading: state.apiCallsInProgress > 0
     };
