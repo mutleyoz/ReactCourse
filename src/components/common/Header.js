@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {PropTypes} from 'prop-types'
-
 import {NavLink} from 'react-router-dom';
 
 const Header = ({courseCount}) => {
@@ -21,7 +20,7 @@ const Header = ({courseCount}) => {
 };
 
 Header.propTypes = {
-    courseCount: PropTypes.object.isRequired
+    courseCount: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {

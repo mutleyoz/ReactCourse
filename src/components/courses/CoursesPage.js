@@ -71,7 +71,7 @@ function mapStateToProps(state){
                     return {
                         ...course, authorName: state.authors.find(a => a.id === course.authorId).name
                     };
-        }),
+            }).sort((a,b) => (a.title > b.title) ? 1 : -1),
          authors: state.authors,
          loading: state.apiCallsInProgress > 0
     };

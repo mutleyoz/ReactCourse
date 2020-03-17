@@ -6,8 +6,9 @@ import PropTypes from 'prop-types'
 import CourseForm from "./CourseForm"
 import {newCourse} from '../../../tools/mockData'
 import {toast} from 'react-toastify'
+import {Redirect} from 'react-router-dom'
 
-export function ManageCoursePage({courses, authors, loadAuthors, loadCourses, saveCourse, history, ...props}) {
+export function ManageCoursePage({courses, authors, loadAuthors, loadCourses, saveCourse, history, redirectToError, ...props}) {
     const [course, setCourse ] = useState({...props.course});
     const [errors, setErrors ] = useState({})
     const [saving, setSaving] = useState(false);
@@ -64,13 +65,16 @@ export function ManageCoursePage({courses, authors, loadAuthors, loadCourses, sa
     }
 
     return (
-        <CourseForm course={course} 
-            errors={errors} 
-            authors={authors} 
-            onChange={handleChange} 
-            onSave={handleSave} 
-            saving={saving}
-        />
+            <>
+            {redirectToError && <Redirect to="/error" />}
+            <CourseForm course={course} 
+                errors={errors} 
+                authors={authors} 
+                onChange={handleChange} 
+                onSave={handleSave} 
+                saving={saving}
+            />
+            </>
     );
 }
 
@@ -85,16 +89,19 @@ ManageCoursePage.propTypes = {
 };
 
 export function getCourseBySlug(courses, slug) {
-    return courses.find(course => course.slug === slug) || null;
+    return courses.find(course => course.slug === slug)
 }
 
 function mapStateToProps(state, ownProps){
     const slug = ownProps.match.params.slug;
     const course = slug && state.courses.length > 0 ? getCourseBySlug(state.courses, slug) : newCourse
+    const redirectToError = !course;
+    
     return {
          course,
          courses: state.courses,
          authors: state.authors,
+         redirectToError: redirectToError
     };
 }
 

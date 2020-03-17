@@ -42,9 +42,9 @@ export function saveAuthor(author) {
         dispatch(beginApiCall());
         return authorApi.saveAuthor(author)
             .then(savedAuthor => {
-                savedAuthor.id 
-                    ? dispatch(updateAuthorSuccess(author))
-                    : dispatch(createAuthorSuccess(author))
+                author.id 
+                    ? dispatch(updateAuthorSuccess(savedAuthor))
+                    : dispatch(createAuthorSuccess(savedAuthor))
                 })
             }
 }
